@@ -5,9 +5,11 @@
 
 ## Contenido
 * [Pregunta 1](#pregunta-1)
+* [Pregunta 2](#pregunta-2)
+* [Pregunta 3](#pregunta-3)
 
 # Pregunta 1
-### Funcionamiento de la carga de imágenes
+## Funcionamiento de la carga de imágenes
 Esta función de la librería `face_recognition` lo que hace en el caso por defecto, es convertir el `input` en un array de numpy, en otro caso se convierte primero la imagen para luego retornar el array.
 
 ```python
@@ -24,12 +26,14 @@ def load_image_file(file, mode = 'RGB'):
 
     return np.array(im)
 ```
-# P2: Adaptación del Rtree de python
+# Pregunta 2
+## Adaptación del Rtree de python
 La adaptación del código es la siguiente:
 ```python
 def Rtree_face_recognition(file, mode = 'RGB'):
 ```
 
-# P3: Implementación de la búsqueda por rango y la KNN
+# Pregunta 3
+## Implementación de la búsqueda por rango y la KNN
 
 ## Comparación de resultados
