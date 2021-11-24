@@ -4,6 +4,6 @@
 * Miguel Alvarado
 
 # P1: Funcionamiento de la carga de imágenes
-´´´python
+´´python
 def load_image_file(file, mode = 'RGB'):
-´´´
+´´
