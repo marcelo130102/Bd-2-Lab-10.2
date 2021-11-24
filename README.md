@@ -4,7 +4,7 @@
 * Miguel Alvarado
 
 ## Contenido
-* [Pregunta 1](#p1:-funcionamiento-de-la-carga-de-imágenes)
+* [Pregunta 1](#pregunta-1)
 
 # Pregunta 1
 ### Funcionamiento de la carga de imágenes
