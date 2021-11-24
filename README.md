@@ -4,7 +4,7 @@
 * Miguel Alvarado
 
 ## Contenido
-* [Pregunta 1](#P1)
+* [Pregunta 1](#p1:-funcionamiento-de-la-carga-de-imágenes)
 
 # P1: Funcionamiento de la carga de imágenes
 Esta función de la librería `face_recognition` lo que hace en el caso por defecto, es convertir el `input` en un array de numpy, en otro caso se convierte primero la imagen para luego retornar el array.
