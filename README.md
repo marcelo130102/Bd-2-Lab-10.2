@@ -167,5 +167,3 @@ for i in range(nrows):
         result.append(i)
 print(result)
 ```
-
-## Comparación de resultados
