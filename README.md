@@ -28,10 +28,68 @@ def load_image_file(file, mode = 'RGB'):
 ```
 # Pregunta 2
 ## Adaptación del Rtree de python
-La adaptación del código es la siguiente:
+Generacion de los vectores caracteristicos de las imagenes dentro del dataset:
+
 ```python
-def Rtree_face_recognition(file, mode = 'RGB'):
+import face_recognition
+import os
+file = open("vectores.csv", "w")
+folder_path = "fotos_bd\lfw"
+folders = os.listdir(folder_path)
+
+for folder in folders:
+    images = os.listdir(folder_path + '/' + folder)
+    for image in images:
+        path = folder_path + '/' + folder + '/' + image
+        picture = face_recognition.load_image_file(path)
+        vector = face_recognition.face_encodings(picture)
+        try:
+            line = ""
+            for i in range(128-1):
+                line+= str(vector[0][i]) + ","
+            line+= str(vector[0][127]) + "\n"
+            file.write(line)
+        except:
+            print("Fail")
+file.close()
 ```
+Estos vectores son guardados dentro de `vectores.csv`.
+
+Se usa R para generar un histograma de  distribución  de  distancias  para  una 
+muestra  aleatoria  de  pares  de  5000 puntos del dataset  de 
+imágenes de rostros.
+
+```{r}
+library(readr)
+library(dplyr)
+data<-read_csv("vectores.csv")
+```
+```{r}
+ED <- function(X, Y){
+  return(sqrt(sum((X-Y)^2)))
+}
+```
+```{r}
+genDistancias <- function(data, maxiter){
+  dists <- rep(0,maxiter)
+  N<-nrow(data)
+  for(i in 1:N){
+    ind<- sample(1:N, size=2)
+    P<-data[ind[1],]
+    Q<-data[ind[2],]
+    dists[i]<- ED(P,Q)
+  }
+  return(dists)
+}
+
+```
+
+```{r}
+D<-genDistancias(data[,1:128],5000)
+Distancias <- hist(D, xlab = "Distancias", breaks = 100)
+```
+![alt text](https://github.com/marcelo130102/Bd-2-Lab-10.2/blob/master/histogramaPara5000ParesPuntos.png)
+
 
 # Pregunta 3
 ## Implementación de la búsqueda por rango y la KNN
