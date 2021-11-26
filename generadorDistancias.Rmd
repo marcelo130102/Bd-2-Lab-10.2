@@ -1,0 +1,40 @@
+---
+title: "Laboratorio 10.2"
+output:
+  html_document:
+    df_print: paged
+  html_notebook: default
+  pdf_document: default
+---
+
+```{r}
+library(readr)
+library(dplyr)
+data<-read_csv("vectores.csv")
+```
+
+```{r}
+ED <- function(X, Y){
+  return(sqrt(sum((X-Y)^2)))
+}
+```
+
+```{r}
+genDistancias <- function(data, maxiter){
+  dists <- rep(0,maxiter)
+  N<-nrow(data)
+  for(i in 1:N){
+    ind<- sample(1:N, size=2)
+    P<-data[ind[1],]
+    Q<-data[ind[2],]
+    dists[i]<- ED(P,Q)
+  }
+  return(dists)
+}
+
+```
+
+```{r}
+D<-genDistancias(data[,1:128],5000)
+Distancias <- hist(D, xlab = "Distancias", breaks = 100)
+```
