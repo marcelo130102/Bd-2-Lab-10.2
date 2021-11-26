@@ -10,7 +10,7 @@
 
 # Pregunta 1
 ## Funcionamiento de la carga de imágenes
-Esta función de la librería `face_recognition` lo que hace en el caso por defecto, es convertir el `input` en un array de numpy, en otro caso se convierte primero la imagen para luego retornar el array.
+Esta función de la librería `face_recognition` lo que hace en el caso por defecto, es convertir el `input` en un array de numpy, en otro caso se convierte primero la imagen para luego retornar el array de 128 indices.
 
 ```python
 import PIL.Image
@@ -25,6 +25,29 @@ def load_image_file(file, mode = 'RGB'):
         im = im.convert(mode)
 
     return np.array(im)
+```
+
+```python
+import os
+file = open("vectores.csv", "w")
+folder_path = "fotos_bd\lfw"
+folders = os.listdir(folder_path)
+
+for folder in folders:
+    images = os.listdir(folder_path + '/' + folder)
+    for image in images:
+        path = folder_path + '/' + folder + '/' + image
+        picture = face_recognition.load_image_file(path)
+        vector = face_recognition.face_encodings(picture)
+        try:
+            line = ""
+            for i in range(128-1):
+                line+= str(vector[0][i]) + ","
+            line+= str(vector[0][127]) + "\n"
+            file.write(line)
+        except:
+            print("Fail")
+file.close()
 ```
 # Pregunta 2
 ## Adaptación del Rtree de python
@@ -93,5 +116,54 @@ Distancias <- hist(D, xlab = "Distancias", breaks = 100)
 
 # Pregunta 3
 ## Implementación de la búsqueda por rango y la KNN
+Adaptación del Rtree de python
 
-## Comparación de resultados
+```python
+from rtree import index
+
+p = index.Property()
+p.dimension = 128 #D
+p.buffering_capacity = 10 #M
+p.dat_extension = 'data'
+p.idx_extension = 'index'
+idx = index.Index('128d_index',properties=p)
+```
+lectura de los vectores caracteristicos
+
+```python
+import csv
+
+vectores = []
+with open('vectores.csv', 'r') as csv_file:
+    csv_reader = csv.reader(csv_file)
+    for line in csv_reader:
+        line = [float(x) for x in line]
+        vectores.append(line)
+```
+
+Insercion de los vectores
+```python
+for i in range(len(vectores)):
+    idx.insert(i, tuple(vectores[i]))
+```
+
+los k=10 vecinos de Aaron_Eckhart_0001.jpg
+```python
+picture = face_recognition.load_image_file("fotos_bd\lfw\Aaron_Eckhart\Aaron_Eckhart_0001.jpg")
+q = tuple(face_recognition.face_encodings(picture)[0])
+lres = list(idx.nearest(coordinates=q, num_results=10))
+print("El vecino mas cercano de Aaron_Eckhart: ", lres)
+```
+Range_seach con radio 0.6 de Aaron_Eckhart_0001.jpg
+```python
+picture = face_recognition.load_image_file("fotos_bd\lfw\Aaron_Eckhart\Aaron_Eckhart_0001.jpg")
+query = np.array(face_recognition.face_encodings(picture)[0])
+result = []
+nrows = len(vectores)
+radio = 0.6
+for i in range(nrows):
+    dist = ED(np.array(vectores[i]), query)
+    if(dist < radio):
+        result.append(i)
+print(result)
+```
