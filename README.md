@@ -154,6 +154,8 @@ q = tuple(face_recognition.face_encodings(picture)[0])
 lres = list(idx.nearest(coordinates=q, num_results=10))
 print("El vecino mas cercano de Aaron_Eckhart: ", lres)
 ```
+Los 10 vecinos mas cercano de Aaron_Eckhart:  [0, 8510, 5823, 1578, 3541, 10244, 1969, 10035, 8167, 8836]
+
 Range_seach con radio 0.6 de Aaron_Eckhart_0001.jpg
 ```python
 picture = face_recognition.load_image_file("fotos_bd\lfw\Aaron_Eckhart\Aaron_Eckhart_0001.jpg")
@@ -167,3 +169,4 @@ for i in range(nrows):
         result.append(i)
 print(result)
 ```
+[0, 1130, 1578, 1969, 3541, 5823, 6884, 8167, 8510, 8836, 10035, 10244]
