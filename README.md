@@ -26,6 +26,8 @@ def load_image_file(file, mode = 'RGB'):
 
     return np.array(im)
 ```
+
+Por lo que el tamaño del vector característico sería al obtener el `length(np.array(im))` el cual sería de tamaño de 128.
 # Pregunta 2
 ## Adaptación del Rtree de python
 Generacion de los vectores caracteristicos de las imagenes dentro del dataset:
@@ -59,17 +61,17 @@ Se usa R para generar un histograma de  distribución  de  distancias  para  una
 muestra  aleatoria  de  pares  de  5000 puntos del dataset  de 
 imágenes de rostros.
 
-```{r}
+```R
 library(readr)
 library(dplyr)
 data<-read_csv("vectores.csv")
 ```
-```{r}
+```R
 ED <- function(X, Y){
   return(sqrt(sum((X-Y)^2)))
 }
 ```
-```{r}
+```R
 genDistancias <- function(data, maxiter){
   dists <- rep(0,maxiter)
   N<-nrow(data)
@@ -84,7 +86,7 @@ genDistancias <- function(data, maxiter){
 
 ```
 
-```{r}
+```R
 D<-genDistancias(data[,1:128],5000)
 Distancias <- hist(D, xlab = "Distancias", breaks = 100)
 ```
